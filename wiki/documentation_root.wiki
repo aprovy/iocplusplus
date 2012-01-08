@@ -1,0 +1,21 @@
+#summary documentation root page
+
+= ioc++ is a type-safe Inversion of Control (IoC) container =
+
+(header-only library)
+
+ioc++ type-safe Inversion of Control (IoC) container. It supports various types of objects. ioc++ is based on boost.bind, boost.function, boost.mpl, boost.static_assert, boost.type_traits, boost.smart_ptr, and boost.unordered and boost.any libraries. Boost.unordered and boost.any librariesis are used for container implementation. Boost.test is using for a testing purposes only.
+
+== Contents ==
+
+  # [contents Concepts]
+  # [basic_usage Basic usage]
+  # [reference Reference]
+
+<br>
+<br>
+----
+
+Copyright: 	Copyright © Guardian, 2011-2012.
+
+License:	Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
