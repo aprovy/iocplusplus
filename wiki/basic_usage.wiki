@@ -120,3 +120,6 @@ function<pl* (int, float, char)> f =
 }}}
 As you can see there is no placeholder 2 in the desc_pl_left. Each descriptor has its own list of a placeholders, numbered from 1. But each descriptor has access to the actual parent placeholders using placeholder remap, wiht the indecies passed to dependency_t.  This is done to allow descriptors to be independent and reusable. 
 Note, that you don't need to register the all dependend descriptors in the container in order to create an object. You have to register descriptor for this object only.
+
+----
+[documentation_root Home] [contents Prev (Concepts)] [preferences Next (Preferences)]
