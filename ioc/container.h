@@ -20,6 +20,25 @@
 
 namespace ioc
 {
+//////////////////////////////////////////////////////////////////////////
+// exceptions
+class unregistred_descriptor : public std::exception
+{
+public:
+	unregistred_descriptor(std::string name) : m_what("ioc++: no descriptor is registred for a type " + name) {}
+	virtual const char * what() const { return m_what.c_str(); }
+private:
+	std::string m_what;
+};
+
+class invalid_signature : public std::exception
+{
+public:
+	invalid_signature(std::string name) : m_what("ioc++: signature mismatch for a type " + name) {}
+	virtual const char * what() const { return m_what.c_str(); }
+private:
+	std::string m_what;
+};
 
 //////////////////////////////////////////////////////////////////////////
 // container
@@ -84,186 +103,443 @@ public:
 		m_resolvers.insert(typeid(T).name(), binded_factory);
 	}
 
-	// TODO: add macro IOC_NO_EXCEPTIONS
-	// TODO: catch bad_any_cast and throw invalid_argument_type
-	// TODO: throw unregistred_type when resolver is empty
 	template<typename R>
 	R* resolve() const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* ()> >(resolver)();
+		{
+			try { return boost::any_cast< boost::function<R* ()> >(resolver)(); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0>
 	R* resolve(A0 a0) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0)> >(resolver)(a0);
+		{
+			try { return boost::any_cast< boost::function<R* (A0)> >(resolver)(a0); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1>
 	R* resolve(A0 a0, A1 a1) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1)> >(resolver)(a0, a1);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1)> >(resolver)(a0, a1); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2>
 	R* resolve(A0 a0, A1 a1, A2 a2) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2)> >(resolver)(a0, a1, a2);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2)> >(resolver)(a0, a1, a2); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3>
 	R* resolve(A0 a0, A1 a1, A2 a2, A3 a3) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2, A3)> >(resolver)(a0, a1, a2, a3);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2, A3)> >(resolver)(a0, a1, a2, a3); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4>
 	R* resolve(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4)> >(resolver)(a0, a1, a2, a3, a4);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4)> >(resolver)(a0, a1, a2, a3, a4); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5>
 	R* resolve(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5)> >(resolver)(a0, a1, a2, a3, a4, a5);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5)> >(resolver)(a0, a1, a2, a3, a4, a5); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
 	R* resolve(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5, A6)> >(resolver)(a0, a1, a2, a3, a4, a5, a6);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5, A6)> >(resolver)(a0, a1, a2, a3, a4, a5, a6); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
 	R* resolve(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5, A6, A7)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5, A6, A7)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
 	R* resolve(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5, A6, A7, A8)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7, a8);
+		{
+			try { return boost::any_cast< boost::function<R* (A0, A1, A2, A3, A4, A5, A6, A7, A8)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return 0;
 	}
 
 	template<typename R>
 	boost::shared_ptr<R> resolve_shared() const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> ()> >(resolver)();
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> ()> >(resolver)(); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0>
 	boost::shared_ptr<R> resolve_shared(A0 a0) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0)> >(resolver)(a0);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0)> >(resolver)(a0); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1)> >(resolver)(a0, a1);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1)> >(resolver)(a0, a1); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2)> >(resolver)(a0, a1, a2);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2)> >(resolver)(a0, a1, a2); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2, A3 a3) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3)> >(resolver)(a0, a1, a2, a3);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3)> >(resolver)(a0, a1, a2, a3); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4)> >(resolver)(a0, a1, a2, a3, a4);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4)> >(resolver)(a0, a1, a2, a3, a4); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5)> >(resolver)(a0, a1, a2, a3, a4, a5);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5)> >(resolver)(a0, a1, a2, a3, a4, a5); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5, A6)> >(resolver)(a0, a1, a2, a3, a4, a5, a6);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5, A6)> >(resolver)(a0, a1, a2, a3, a4, a5, a6); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5, A6, A7)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5, A6, A7)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
 	template<typename R, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
 	boost::shared_ptr<R> resolve_shared(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
 	{
-		boost::any resolver = m_resolvers.get(typeid(R).name());
+		std::string name = typeid(R).name();
+		boost::any resolver = m_resolvers.get(name.c_str());
 		if(!resolver.empty())
-			return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5, A6, A7, A8)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7, a8);
+		{
+			try { return boost::any_cast< boost::function<boost::shared_ptr<R> (A0, A1, A2, A3, A4, A5, A6, A7, A8)> >(resolver)(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
+			catch(boost::bad_any_cast&)
+			{
+#ifndef IOC_NO_EXCEPTIONS
+				throw invalid_signature(name);
+#endif
+			}
+		}
+
+#ifndef IOC_NO_EXCEPTIONS
+		throw unregistred_descriptor(name);
+#endif
 		return boost::shared_ptr<R>();
 	}
 
