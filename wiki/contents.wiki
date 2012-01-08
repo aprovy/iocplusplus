@@ -25,4 +25,5 @@ function<g* ()> f =
 		
 ioc++ does the same thing and creates factories recursively for all dependencies, saving a result into a boost::function object. Also, ioc++ can handle placeholders. The ioc++ placeholders have the same limitations as the boost.bind placeholders do.
 
+----
 [documentation_root Home] [basic_usage Next (Basic usage)]
