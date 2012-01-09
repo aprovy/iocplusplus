@@ -9,6 +9,7 @@ ioc++ type-safe Inversion of Control (IoC) container. It supports various types 
 == Contents ==
 
   # [contents Concepts]
+  # [terminology Terminology]
   # [basic_usage Basic usage]
   # [reference Reference]
 
