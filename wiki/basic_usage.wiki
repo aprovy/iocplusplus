@@ -13,7 +13,7 @@ typedef ioc::descriptor_t<a> descriptor_a;
 main()
 {
 	ioc::container ioc;
-	ioc.registerType<descriptor_a, 0, a* ()>();
+	ioc.registerType<descriptor_a>();
 	a* a_ptr = ioc.resolve<a>(); // -> a* a_ptr = new a();
 }
 }}}
@@ -31,7 +31,7 @@ typedef ioc::descriptor_t<a, ioc::placeholder_dependency_t<1, int> > descriptor_
 main()
 {
 	ioc::container ioc;
-	ioc.registerType<descriptor_a, 1, a* (int)>();
+	ioc.registerType<descriptor_a>();
 	a* a_ptr = ioc.resolve<a>(5); // -> a* a_ptr = new a(5);
 }
 }}}
@@ -40,7 +40,7 @@ main()
 
 ===Smart pointers.===
 
-You can handle objects with smart pointer shared_ptr`<`T`>`, instead of raw pointer T`*` with another version of template:
+You can handle objects with smart pointer `shared_ptr<T>`, instead of raw pointer `T*` with another version of template:
 {{{
 struct a{ a(int value) {} };
 typedef ioc::descriptor_shared_t<a, ioc::placeholder_dependency_t<1, int> > descriptor_a;
@@ -48,7 +48,7 @@ typedef ioc::descriptor_shared_t<a, ioc::placeholder_dependency_t<1, int> > desc
 main()
 {
 	ioc::container ioc;
-	ioc.registerType<descriptor_a, 1, boost::shared_ptr<a> (int)>();
+	ioc.registerType<descriptor_a>();
 	boost::shared_ptr<a> a_ptr = ioc.resolve_shared<a>(5); // -> a* a_ptr = boost::shared_ptr<a>(new a(5));
 }
 }}}
@@ -72,7 +72,7 @@ struct b
 };
 typedef ioc::descriptor_t<b, ioc::dependency_t<desc_a>> desc_b;
 
-ioc.registerType<desc_b, 0, b* ()>();
+ioc.registerType<desc_b>();
 b* obj1 = ioc.resolve<b>();
 }}}
 Please, pay attention that there is no dependency_shared_t, only descriptor_shared_t.
@@ -105,7 +105,7 @@ struct pl
 };
 typedef ioc::descriptor_t<pl, ioc::dependency_t<desc_pl_left, 1, 2>, ioc::dependency_t<desc_pl_middle, 2, 3>> desc_pl;
 
-ioc.registerType<desc_pl, 3, pl* (int, float, char)>();
+ioc.registerType<desc_pl>();
 
 pl* obj = ioc.resolve<pl>(1, 2.f, (char)3);
 delete obj;
