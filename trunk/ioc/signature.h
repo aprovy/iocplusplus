@@ -64,7 +64,7 @@ template<typename R, typename A>
 struct make_signature<R, A, 1>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface
+		typename boost::mpl::at_c<A, 0>::type
 		);
 };
 
@@ -72,8 +72,8 @@ template<typename R, typename A>
 struct make_signature<R, A, 2>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type
 		);
 };
 
@@ -81,9 +81,9 @@ template<typename R, typename A>
 struct make_signature<R, A, 3>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type
 		);
 };
 
@@ -91,10 +91,10 @@ template<typename R, typename A>
 struct make_signature<R, A, 4>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface,
-		typename boost::mpl::at_c<A, 3>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type,
+		typename boost::mpl::at_c<A, 3>::type
 		);
 };
 
@@ -102,11 +102,11 @@ template<typename R, typename A>
 struct make_signature<R, A, 5>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface,
-		typename boost::mpl::at_c<A, 3>::type::interface,
-		typename boost::mpl::at_c<A, 4>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type,
+		typename boost::mpl::at_c<A, 3>::type,
+		typename boost::mpl::at_c<A, 4>::type
 		);
 };
 
@@ -114,12 +114,12 @@ template<typename R, typename A>
 struct make_signature<R, A, 6>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface,
-		typename boost::mpl::at_c<A, 3>::type::interface,
-		typename boost::mpl::at_c<A, 4>::type::interface,
-		typename boost::mpl::at_c<A, 5>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type,
+		typename boost::mpl::at_c<A, 3>::type,
+		typename boost::mpl::at_c<A, 4>::type,
+		typename boost::mpl::at_c<A, 5>::type
 		);
 };
 
@@ -127,13 +127,13 @@ template<typename R, typename A>
 struct make_signature<R, A, 7>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface,
-		typename boost::mpl::at_c<A, 3>::type::interface,
-		typename boost::mpl::at_c<A, 4>::type::interface,
-		typename boost::mpl::at_c<A, 5>::type::interface,
-		typename boost::mpl::at_c<A, 6>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type,
+		typename boost::mpl::at_c<A, 3>::type,
+		typename boost::mpl::at_c<A, 4>::type,
+		typename boost::mpl::at_c<A, 5>::type,
+		typename boost::mpl::at_c<A, 6>::type
 		);
 };
 
@@ -141,14 +141,14 @@ template<typename R, typename A>
 struct make_signature<R, A, 8>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface,
-		typename boost::mpl::at_c<A, 3>::type::interface,
-		typename boost::mpl::at_c<A, 4>::type::interface,
-		typename boost::mpl::at_c<A, 5>::type::interface,
-		typename boost::mpl::at_c<A, 6>::type::interface,
-		typename boost::mpl::at_c<A, 7>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type,
+		typename boost::mpl::at_c<A, 3>::type,
+		typename boost::mpl::at_c<A, 4>::type,
+		typename boost::mpl::at_c<A, 5>::type,
+		typename boost::mpl::at_c<A, 6>::type,
+		typename boost::mpl::at_c<A, 7>::type
 		);
 };
 
@@ -156,22 +156,29 @@ template<typename R, typename A>
 struct make_signature<R, A, 9>
 {
 	typedef R (type)(
-		typename boost::mpl::at_c<A, 0>::type::interface,
-		typename boost::mpl::at_c<A, 1>::type::interface,
-		typename boost::mpl::at_c<A, 2>::type::interface,
-		typename boost::mpl::at_c<A, 3>::type::interface,
-		typename boost::mpl::at_c<A, 4>::type::interface,
-		typename boost::mpl::at_c<A, 5>::type::interface,
-		typename boost::mpl::at_c<A, 6>::type::interface,
-		typename boost::mpl::at_c<A, 7>::type::interface,
-		typename boost::mpl::at_c<A, 8>::type::interface
+		typename boost::mpl::at_c<A, 0>::type,
+		typename boost::mpl::at_c<A, 1>::type,
+		typename boost::mpl::at_c<A, 2>::type,
+		typename boost::mpl::at_c<A, 3>::type,
+		typename boost::mpl::at_c<A, 4>::type,
+		typename boost::mpl::at_c<A, 5>::type,
+		typename boost::mpl::at_c<A, 6>::type,
+		typename boost::mpl::at_c<A, 7>::type,
+		typename boost::mpl::at_c<A, 8>::type
 		);
+};
+
+template<typename placeholder>
+struct get_placeholder_interface
+{
+	typedef typename placeholder::interface type;
 };
 
 template<typename R, typename A>
 struct signature_maker
 {
-	typedef typename make_signature<R, A, boost::mpl::size<A>::value>::type type;
+	typedef typename boost::mpl::transform<A, get_placeholder_interface<boost::mpl::_1> >::type params;
+	typedef typename make_signature<R, params, boost::mpl::size<params>::value>::type type;
 };
 
 }
