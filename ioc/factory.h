@@ -10,6 +10,11 @@
 
 //  See http://code.google.com/p/iocplusplus/ for updates, documentation, and revision history.
 
+#include <string>
+#include <boost/mpl/range_c.hpp>
+#include <boost/function.hpp>
+#include <boost/unordered_map.hpp>
+
 #include "signature.h"
 #include "generators.h"
 #include "dependency.h"

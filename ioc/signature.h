@@ -14,6 +14,7 @@
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/transform.hpp>
 #include <boost/mpl/size.hpp>
+#include <boost/mpl/at.hpp>
 
 namespace ioc
 {
