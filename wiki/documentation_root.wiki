@@ -11,6 +11,7 @@ ioc++ type-safe Inversion of Control (IoC) container. It supports various types 
   # [contents Concepts]
   # [terminology Terminology]
   # [basic_usage Basic usage]
+  # [factory_method Factory Method]
   # [reference Reference]
 
 <br>
