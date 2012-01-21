@@ -66,7 +66,7 @@ private:
 class container
 {
 public:
-	template<typename descriptor, typename register_type, typename signature>
+	template<typename descriptor, typename register_type>
 	void registerType()
 	{
 		enum { placeholder_count = detail::get_placeholder_count<descriptor>::value };
@@ -88,15 +88,20 @@ public:
 			dependencies_count
 		> resolver_type;
 
+		typedef detail::signature_maker<
+			typename descriptor::interface,
+			typename resolver_type::signature_placeholders
+		>::type signature;
+
 		boost::function<signature> resolver =
 			resolver_type::invoke();
 		m_resolvers.insert(typeid(register_type).name(), resolver);
 	}
 
-	template<typename descriptor, typename signature>
+	template<typename descriptor>
 	void registerType()
 	{
-		registerType<descriptor, descriptor::type, signature>();
+		registerType<descriptor, descriptor::type>();
 	}
 
 	template <typename T, typename signature>

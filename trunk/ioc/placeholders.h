@@ -12,6 +12,12 @@
 
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/at.hpp>
+#include <boost/mpl/copy.hpp>
+#include <boost/mpl/sort.hpp>
+#include <boost/mpl/unique.hpp>
+#include <boost/mpl/less.hpp>
+#include <boost/type_traits/is_same.hpp>
+#include <boost/mpl/back_inserter.hpp>
 #include <boost/mpl/transform.hpp>
 #include <boost/mpl/minus.hpp>
 #include <boost/mpl/comparison.hpp>
@@ -28,7 +34,7 @@ struct placeholder
 {
 	typedef boost::arg<I> type;
 	typedef T interface;
-	typedef boost::mpl::vector<> dependencies;
+	typedef boost::mpl::vector0<> dependencies;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,6 +57,62 @@ template<typename placeholders, typename construct_type>
 struct get_placeholder_type
 {
 	typedef boost::arg<boost::mpl::at_c<placeholders, get_placeholder_index<construct_type>::index>::type::value> type;
+};
+
+// gets the placeholder with remapped index
+template<typename placeholders, typename descriptor>
+struct get_actual_placeholder
+{
+	typedef typename descriptor::type construct_type;
+	typedef typename descriptor::interface interface_type;
+	typedef placeholder<boost::mpl::at_c<placeholders, get_placeholder_index<construct_type>::index>::type::value, interface_type> type;
+};
+
+struct placeholder_less
+{
+	template<typename Left, typename Right>
+	struct apply
+	{
+		enum { left_index = get_placeholder_index<typename Left::type>::index };
+		enum { right_index = get_placeholder_index<typename Right::type>::index };
+		typedef typename boost::mpl::less<boost::mpl::int_<left_index>, boost::mpl::int_<right_index>>::type type;
+	};
+};
+
+template<
+	typename A0 = boost::mpl::vector0<>,
+	typename A1 = boost::mpl::vector0<>,
+	typename A2 = boost::mpl::vector0<>,
+	typename A3 = boost::mpl::vector0<>,
+	typename A4 = boost::mpl::vector0<>,
+	typename A5 = boost::mpl::vector0<>,
+	typename A6 = boost::mpl::vector0<>,
+	typename A7 = boost::mpl::vector0<>,
+	typename A8 = boost::mpl::vector0<>
+>
+struct merge_placeholders
+{
+	typedef typename boost::mpl::copy<A0, boost::mpl::back_inserter<boost::mpl::vector0<>> >::type merged_a0;
+	typedef typename boost::mpl::copy<A1, boost::mpl::back_inserter<merged_a0> >::type merged_a1;
+	typedef typename boost::mpl::copy<A2, boost::mpl::back_inserter<merged_a1> >::type merged_a2;
+	typedef typename boost::mpl::copy<A3, boost::mpl::back_inserter<merged_a2> >::type merged_a3;
+	typedef typename boost::mpl::copy<A4, boost::mpl::back_inserter<merged_a3> >::type merged_a4;
+	typedef typename boost::mpl::copy<A5, boost::mpl::back_inserter<merged_a4> >::type merged_a5;
+	typedef typename boost::mpl::copy<A6, boost::mpl::back_inserter<merged_a5> >::type merged_a6;
+	typedef typename boost::mpl::copy<A7, boost::mpl::back_inserter<merged_a6> >::type merged_a7;
+	typedef typename boost::mpl::copy<A8, boost::mpl::back_inserter<merged_a7> >::type merged_a8;
+	typedef typename boost::mpl::sort<
+		merged_a8,
+		typename boost::mpl::bind<
+			placeholder_less,
+			boost::mpl::_1,
+			boost::mpl::_2
+			>
+	>::type sorted;
+	typedef typename boost::mpl::unique<
+		sorted,
+		boost::is_same<boost::mpl::_1,boost::mpl::_2>
+	>::type result;
 };
 
 //////////////////////////////////////////////////////////////////////////
