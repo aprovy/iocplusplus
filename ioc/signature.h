@@ -13,12 +13,15 @@
 #include <boost/mpl/max_element.hpp>
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/transform.hpp>
+#include <boost/mpl/size.hpp>
 
 namespace ioc
 {
-
 namespace detail
 {
+
+//////////////////////////////////////////////////////////////////////////
+// placeholder count
 
 template<typename dependency>
 struct get_max_placeholder
@@ -43,6 +46,132 @@ struct get_placeholder_count
 		boost::mpl::int_<0>
 	>::type type;
 	enum { value = type::value };
+};
+
+//////////////////////////////////////////////////////////////////////////
+// signature
+
+template<typename R, typename A, int argument_count>
+struct make_signature {};
+
+template<typename R, typename A>
+struct make_signature<R, A, 0>
+{
+	typedef R (type)();
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 1>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 2>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 3>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 4>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface,
+		typename boost::mpl::at_c<A, 3>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 5>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface,
+		typename boost::mpl::at_c<A, 3>::type::interface,
+		typename boost::mpl::at_c<A, 4>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 6>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface,
+		typename boost::mpl::at_c<A, 3>::type::interface,
+		typename boost::mpl::at_c<A, 4>::type::interface,
+		typename boost::mpl::at_c<A, 5>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 7>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface,
+		typename boost::mpl::at_c<A, 3>::type::interface,
+		typename boost::mpl::at_c<A, 4>::type::interface,
+		typename boost::mpl::at_c<A, 5>::type::interface,
+		typename boost::mpl::at_c<A, 6>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 8>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface,
+		typename boost::mpl::at_c<A, 3>::type::interface,
+		typename boost::mpl::at_c<A, 4>::type::interface,
+		typename boost::mpl::at_c<A, 5>::type::interface,
+		typename boost::mpl::at_c<A, 6>::type::interface,
+		typename boost::mpl::at_c<A, 7>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct make_signature<R, A, 9>
+{
+	typedef R (type)(
+		typename boost::mpl::at_c<A, 0>::type::interface,
+		typename boost::mpl::at_c<A, 1>::type::interface,
+		typename boost::mpl::at_c<A, 2>::type::interface,
+		typename boost::mpl::at_c<A, 3>::type::interface,
+		typename boost::mpl::at_c<A, 4>::type::interface,
+		typename boost::mpl::at_c<A, 5>::type::interface,
+		typename boost::mpl::at_c<A, 6>::type::interface,
+		typename boost::mpl::at_c<A, 7>::type::interface,
+		typename boost::mpl::at_c<A, 8>::type::interface
+		);
+};
+
+template<typename R, typename A>
+struct signature_maker
+{
+	typedef typename make_signature<R, A, boost::mpl::size<A>::value>::type type;
 };
 
 }
