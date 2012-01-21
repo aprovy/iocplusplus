@@ -37,6 +37,25 @@ struct placeholder
 	typedef boost::mpl::vector0<> dependencies;
 };
 
+template<typename placeholder_types, typename placeholder_index>
+struct create_placeholder
+{
+	typedef placeholder<
+		placeholder_index::value,
+		typename boost::mpl::at_c<placeholder_types, placeholder_index::value - 1>::type
+	> type;
+};
+
+template<typename placeholder_descriptor>
+struct create_placeholder_dependency
+{
+	typedef struct
+	{
+		typedef placeholder_descriptor descriptor;
+		typedef boost::mpl::vector0<> placeholders;
+	} type;
+};
+
 //////////////////////////////////////////////////////////////////////////
 // placeholders helpers
 // inspired by the boost...
@@ -79,6 +98,8 @@ struct placeholder_less
 	};
 };
 
+//////////////////////////////////////////////////////////////////////////
+// merge placeholders
 template<
 	typename A0 = boost::mpl::vector0<>,
 	typename A1 = boost::mpl::vector0<>,
