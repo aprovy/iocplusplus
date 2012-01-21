@@ -17,6 +17,7 @@
 
 #include "generators.h"
 #include "dependency.h"
+#include "signature.h"
 
 namespace ioc
 {
@@ -65,9 +66,10 @@ private:
 class container
 {
 public:
-	template<typename descriptor, typename register_type, int placeholder_count, typename signature>
+	template<typename descriptor, typename register_type, typename signature>
 	void registerType()
 	{
+		enum { placeholder_count = detail::get_placeholder_count<descriptor>::value };
 		typedef boost::mpl::range_c<int, 1, placeholder_count + 1>::type placeholders;
 		enum { dependencies_count = boost::mpl::size<typename descriptor::dependencies>::value };
 		typedef typename detail::make_dependency<descriptor, placeholders>::type d;
@@ -91,10 +93,10 @@ public:
 		m_resolvers.insert(typeid(register_type).name(), resolver);
 	}
 
-	template<typename descriptor, int placeholder_count, typename signature>
+	template<typename descriptor, typename signature>
 	void registerType()
 	{
-		registerType<descriptor, descriptor::type, placeholder_count, signature>();
+		registerType<descriptor, descriptor::type, signature>();
 	}
 
 	template <typename T, typename signature>

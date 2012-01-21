@@ -13,6 +13,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/mpl/copy_if.hpp>
 #include <boost/mpl/always.hpp>
+#include <boost/mpl/vector_c.hpp>
 #include <boost/type_traits/is_same.hpp>
 
 namespace ioc
@@ -32,7 +33,7 @@ template<typename invalid_type, typename A0, typename A1, typename A2, typename 
 struct pack_args
 {
 	typedef typename boost::mpl::copy_if<
-		boost::mpl::vector<A0, A1, A2, A3, A4, A5, A6, A7, A8>,
+		boost::mpl::vector9<A0, A1, A2, A3, A4, A5, A6, A7, A8>,
 		boost::mpl::not_equal_to<boost::is_same<boost::mpl::_1, invalid_type>, boost::mpl::true_>,
 		boost::mpl::back_inserter<boost::mpl::vector<>>
 	>::type output_args; 
@@ -42,17 +43,7 @@ template<int invalid_value, int A0, int A1, int A2, int A3, int A4, int A5, int 
 struct pack_int_args
 {
 	typedef typename boost::mpl::copy_if<
-		boost::mpl::vector<
-			boost::mpl::int_<A0>,
-			boost::mpl::int_<A1>,
-			boost::mpl::int_<A2>,
-			boost::mpl::int_<A3>,
-			boost::mpl::int_<A4>,
-			boost::mpl::int_<A5>,
-			boost::mpl::int_<A6>,
-			boost::mpl::int_<A7>,
-			boost::mpl::int_<A8>
-		>,
+		boost::mpl::vector9_c<int, A0, A1, A2, A3, A4, A5, A6, A7, A8>,
 		boost::mpl::not_equal_to<boost::mpl::_1, boost::mpl::int_<invalid_value>>
 		>::type output_args; 
 };
